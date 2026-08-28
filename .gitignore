@@ -1,0 +1,11 @@
+node_modules/
+.next/
+out/
+.DS_Store
+*.log
+*.tsbuildinfo
+.env*
+!.env.example
+
+# Legacy source copy; the site uses the optimized file under moving-image/.
+public/videos/moonlit-duel.mp4

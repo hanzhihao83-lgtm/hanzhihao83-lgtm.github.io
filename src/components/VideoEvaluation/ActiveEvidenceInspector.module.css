@@ -1,0 +1,591 @@
+.inspector {
+  --inspector-accent: #b9ff43;
+  --issue-color: #f2b15b;
+  display: grid;
+  min-width: 0;
+  height: clamp(29rem, 38vw, 34rem);
+  grid-template-columns: minmax(0, 1.78fr) minmax(15rem, 1fr);
+  border-bottom: 1px solid rgb(241 240 235 / 10%);
+  background: #050706;
+  animation: inspector-enter 380ms cubic-bezier(.22, 1, .36, 1) both;
+}
+
+.visualColumn,
+.detailColumn {
+  min-width: 0;
+}
+
+.visualColumn {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  border-right: 1px solid rgb(241 240 235 / 10%);
+}
+
+.visualHeader,
+.visualFooter {
+  display: flex;
+  min-height: 2rem;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  color: rgb(241 240 235 / 38%);
+  font-family: var(--font-mono);
+  font-size: .48rem;
+  letter-spacing: .08em;
+}
+
+.visualHeader > span:first-child,
+.visualFooter time {
+  color: var(--inspector-accent);
+}
+
+.evidenceImage {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 1px solid rgb(241 240 235 / 14%);
+  background: #080a08;
+  isolation: isolate;
+}
+
+.currentImage,
+.previousFrame img {
+  object-fit: cover;
+}
+
+.currentImage {
+  animation: evidence-image-in 360ms cubic-bezier(.22, 1, .36, 1) both;
+}
+
+.previousFrame {
+  position: absolute;
+  z-index: 2;
+  inset: 0 50% 0 0;
+  overflow: hidden;
+  border-right: 1px solid var(--issue-color);
+}
+
+.previousFrame img {
+  width: 200% !important;
+  max-width: none !important;
+}
+
+.previousFrame span {
+  position: absolute;
+  z-index: 3;
+  top: .6rem;
+  left: .6rem;
+  padding: .28rem .36rem;
+  background: rgb(5 7 6 / 78%);
+  color: var(--issue-color);
+  font-family: var(--font-mono);
+  font-size: .42rem;
+  letter-spacing: .06em;
+}
+
+.annotationLines,
+.annotationLabels,
+.scanTexture,
+.cornerMark {
+  position: absolute;
+  z-index: 4;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.annotationLines g {
+  --annotation-color: var(--inspector-accent);
+  color: var(--annotation-color);
+  opacity: .72;
+}
+
+.annotationLines g[data-tone="issue"] {
+  --annotation-color: var(--issue-color);
+}
+
+.annotationLines line,
+.annotationLines path,
+.annotationLines rect {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: .18;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 120;
+  stroke-dashoffset: 120;
+  animation: annotation-draw 320ms cubic-bezier(.22, 1, .36, 1) forwards;
+  animation-delay: calc(90ms + var(--annotation-delay));
+}
+
+.annotationLines .annotationActive {
+  opacity: 1;
+}
+
+.annotationLines .annotationActive line,
+.annotationLines .annotationActive path,
+.annotationLines .annotationActive rect {
+  stroke-width: .28;
+}
+
+.annotationLabels {
+  z-index: 5;
+}
+
+.annotationLabels button {
+  --annotation-color: var(--inspector-accent);
+  position: absolute;
+  display: flex;
+  min-height: 28px;
+  align-items: center;
+  gap: .34rem;
+  padding: .18rem .3rem;
+  border: 0;
+  background: rgb(5 7 6 / 76%);
+  color: var(--annotation-color);
+  font-family: var(--font-mono);
+  font-size: clamp(.42rem, .55vw, .52rem);
+  letter-spacing: .04em;
+  opacity: 0;
+  transform: translate(-5%, -50%);
+  animation: annotation-label-in 240ms ease forwards;
+  animation-delay: calc(150ms + var(--annotation-delay));
+  pointer-events: auto;
+}
+
+.annotationLabels button[data-tone="issue"] {
+  --annotation-color: var(--issue-color);
+}
+
+.annotationLabels button i {
+  width: .34rem;
+  height: .34rem;
+  flex: 0 0 auto;
+  border: 1px solid currentColor;
+}
+
+.annotationLabels button:hover,
+.annotationLabels button:focus-visible,
+.annotationLabels button[data-active] {
+  background: rgb(5 7 6 / 92%);
+  outline: 1px solid currentColor;
+  outline-offset: 2px;
+}
+
+.scanTexture {
+  z-index: 3;
+  background: repeating-linear-gradient(180deg, transparent 0 3px, rgb(5 7 6 / 10%) 4px);
+}
+
+.cornerMark {
+  z-index: 6;
+  width: 1.35rem;
+  height: 1.35rem;
+  border-top: 1px solid var(--inspector-accent);
+  border-left: 1px solid var(--inspector-accent);
+  opacity: .72;
+}
+
+.detailLens {
+  position: absolute;
+  z-index: 6;
+  right: .7rem;
+  bottom: .7rem;
+  overflow: hidden;
+  width: clamp(5.5rem, 16%, 8rem);
+  aspect-ratio: 1;
+  border: 1px solid var(--inspector-accent);
+  background: #050706;
+}
+
+.detailLens img {
+  object-fit: cover;
+  transform: scale(2);
+  transform-origin: var(--lens-x) var(--lens-y);
+}
+
+.detailLens span {
+  position: absolute;
+  right: .25rem;
+  bottom: .2rem;
+  padding: .15rem .2rem;
+  background: rgb(5 7 6 / 78%);
+  color: var(--inspector-accent);
+  font-family: var(--font-mono);
+  font-size: .36rem;
+}
+
+.visualFooter {
+  margin-top: .4rem;
+}
+
+.visualFooter button,
+.issueSection button {
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--inspector-accent);
+  font-family: var(--font-mono);
+  font-size: .48rem;
+  letter-spacing: .05em;
+}
+
+.visualFooter button:focus-visible,
+.issueSection button:focus-visible {
+  outline: 1px solid currentColor;
+  outline-offset: 2px;
+}
+
+.preloadImage {
+  position: absolute;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  clip-path: inset(50%);
+  pointer-events: none;
+}
+
+.detailColumn {
+  display: flex;
+  flex-direction: column;
+  background: #070908;
+}
+
+.detailHeader,
+.factSection,
+.matchSection,
+.issueSection {
+  padding: 1rem 1.15rem;
+  border-bottom: 1px solid rgb(241 240 235 / 10%);
+  animation: detail-rise 340ms cubic-bezier(.22, 1, .36, 1) both;
+}
+
+.detailHeader > span,
+.factSection > span,
+.matchSection > span,
+.issueSection > span {
+  color: rgb(241 240 235 / 38%);
+  font-family: var(--font-mono);
+  font-size: .46rem;
+  letter-spacing: .09em;
+}
+
+.detailHeader h3 {
+  margin: .65rem 0 .2rem;
+  color: var(--inspector-accent);
+  font-size: clamp(1.4rem, 2.3vw, 2.25rem);
+  font-weight: 500;
+  letter-spacing: -.04em;
+  line-height: 1;
+}
+
+.detailHeader p,
+.detailHeader time {
+  margin: 0;
+  color: rgb(241 240 235 / 45%);
+  font-family: var(--font-mono);
+  font-size: .5rem;
+  letter-spacing: .07em;
+}
+
+.detailHeader time {
+  display: block;
+  margin-top: .75rem;
+}
+
+.detailHeader time b {
+  color: var(--inspector-accent);
+  font-weight: 500;
+}
+
+.factSection {
+  flex: 1;
+  animation-delay: 35ms;
+}
+
+.factSection ul {
+  display: grid;
+  gap: 0;
+  margin: .55rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.factSection li {
+  padding: .42rem 0;
+  border-bottom: 1px solid rgb(241 240 235 / 9%);
+  color: rgb(241 240 235 / 66%);
+  font-size: clamp(.66rem, .85vw, .78rem);
+  line-height: 1.45;
+  transition: color 180ms ease, padding-left 180ms ease;
+}
+
+.factSection li[data-highlight] {
+  padding-left: .42rem;
+  color: var(--inspector-accent);
+}
+
+.matchSection {
+  animation-delay: 70ms;
+}
+
+.matchBars {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: .35rem;
+  margin-top: .8rem;
+}
+
+.matchBars i {
+  height: .42rem;
+  background: rgb(241 240 235 / 11%);
+}
+
+.matchBars i[data-lit] {
+  background: var(--inspector-accent);
+}
+
+.matchSection strong {
+  display: block;
+  margin-top: .7rem;
+  color: var(--inspector-accent);
+  font-family: var(--font-mono);
+  font-size: .48rem;
+  font-weight: 500;
+  letter-spacing: .06em;
+}
+
+.issueSection {
+  border-bottom: 0;
+  animation-delay: 105ms;
+}
+
+.issueSection strong {
+  display: block;
+  margin-top: .5rem;
+  color: var(--issue-color);
+  font-size: .78rem;
+  font-weight: 500;
+}
+
+.issueSection button {
+  color: var(--issue-color);
+}
+
+.syncTrace {
+  position: relative;
+  display: grid;
+  gap: .35rem;
+  padding: .45rem .6rem;
+  border-right: 1px solid rgb(241 240 235 / 10%);
+  border-bottom: 1px solid rgb(241 240 235 / 10%);
+  border-left: 1px solid rgb(241 240 235 / 10%);
+  font-family: var(--font-mono);
+  font-size: .4rem;
+}
+
+.syncTrace > div {
+  display: grid;
+  grid-template-columns: 5.2rem 1fr;
+  gap: .6rem;
+  align-items: center;
+  color: rgb(241 240 235 / 35%);
+}
+
+.syncTrace > div > i {
+  position: relative;
+  height: 1px;
+  background: rgb(241 240 235 / 14%);
+}
+
+.videoEventLine::after,
+.audioEventLine::after {
+  position: absolute;
+  top: -2px;
+  width: 31%;
+  height: 5px;
+  background: var(--inspector-accent);
+  content: "";
+}
+
+.videoEventLine::after { left: 24%; }
+.audioEventLine::after { left: 43.2%; width: 43.6%; }
+
+.syncCursor {
+  position: absolute;
+  top: .35rem;
+  bottom: .35rem;
+  left: calc(var(--evidence-progress) * 100%);
+  width: 1px;
+  background: var(--inspector-accent);
+  transition: left 180ms linear;
+}
+
+.syncTrace > b {
+  justify-self: end;
+  color: var(--inspector-accent);
+  font-weight: 500;
+}
+
+.miniWave {
+  display: flex;
+  height: 1.8rem;
+  gap: 2px;
+  align-items: center;
+  margin: auto 1.15rem .9rem;
+  opacity: .7;
+}
+
+.miniWave i {
+  width: 2px;
+  height: var(--wave-height);
+  background: var(--inspector-accent);
+  transform: scaleY(.5);
+  transform-origin: center;
+  animation: inspector-wave 1.05s ease-in-out infinite alternate;
+  animation-delay: var(--wave-delay);
+  animation-play-state: paused;
+}
+
+.inspector[data-playing] .miniWave i {
+  animation-play-state: running;
+}
+
+@media (max-width: 1100px) {
+  .inspector {
+    height: 31rem;
+    grid-template-columns: minmax(0, 1.4fr) minmax(15rem, 1fr);
+  }
+}
+
+@media (max-width: 760px) {
+  .inspector {
+    height: auto;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .visualColumn {
+    border-right: 0;
+    border-bottom: 1px solid rgb(241 240 235 / 10%);
+  }
+
+  .detailColumn {
+    min-height: 25rem;
+  }
+}
+
+@media (max-width: 680px) {
+  .visualColumn {
+    padding: .8rem;
+  }
+
+  .visualHeader > span:last-child {
+    display: none;
+  }
+
+  .annotationLabels button {
+    width: 44px;
+    min-height: 44px;
+    justify-content: center;
+    padding: 0;
+    background: transparent;
+    transform: translate(-50%, -50%);
+  }
+
+  .annotationLabels button span {
+    position: absolute;
+    bottom: calc(100% + .15rem);
+    left: 50%;
+    display: none;
+    width: max-content;
+    max-width: 8rem;
+    padding: .28rem .38rem;
+    background: #050706;
+    transform: translateX(-50%);
+  }
+
+  .annotationLabels button[data-active] span,
+  .annotationLabels button:focus-visible span {
+    display: block;
+  }
+
+  .detailLens {
+    display: none;
+  }
+
+  .detailHeader,
+  .factSection,
+  .matchSection,
+  .issueSection {
+    padding-right: .9rem;
+    padding-left: .9rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .inspector,
+  .currentImage,
+  .detailHeader,
+  .factSection,
+  .matchSection,
+  .issueSection,
+  .annotationLines line,
+  .annotationLines path,
+  .annotationLines rect,
+  .annotationLabels button {
+    animation: none;
+  }
+
+  .annotationLines line,
+  .annotationLines path,
+  .annotationLines rect {
+    stroke-dashoffset: 0;
+  }
+
+  .annotationLabels button {
+    opacity: 1;
+  }
+
+  .factSection li,
+  .syncCursor {
+    transition: none;
+  }
+
+  .miniWave i {
+    animation: none;
+    transform: scaleY(.58);
+  }
+}
+
+@keyframes inspector-enter {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes evidence-image-in {
+  from { opacity: .2; }
+  to { opacity: 1; }
+}
+
+@keyframes annotation-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes annotation-label-in {
+  from { opacity: 0; transform: translate(-5%, calc(-50% + 6px)); }
+  to { opacity: 1; transform: translate(-5%, -50%); }
+}
+
+@keyframes detail-rise {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes inspector-wave {
+  from { transform: scaleY(.35); }
+  to { transform: scaleY(1); }
+}

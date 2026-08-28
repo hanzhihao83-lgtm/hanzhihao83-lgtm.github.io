@@ -1,0 +1,332 @@
+.transition {
+  --project-transition-accent: #b9ff43;
+  --project-transition-progress: 0;
+  position: fixed;
+  z-index: 90;
+  inset: 0;
+  overflow: hidden;
+  color: #f4f2ec;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 160ms ease;
+}
+
+.transition[data-project-active="true"],
+.transition[data-active] {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.genericLayer,
+.topCurtain,
+.bottomCurtain,
+.reducedLayer {
+  position: absolute;
+  background: #080a09;
+}
+
+.genericLayer {
+  z-index: 1;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  color: var(--acid);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(100%);
+  transition: opacity 160ms ease, transform 300ms var(--ease-out);
+}
+
+.transition[data-active]:not([data-project-active="true"]) .genericLayer {
+  opacity: 1;
+  transform: none;
+}
+
+.genericLayer > span {
+  font-family: var(--font-mono);
+  font-size: clamp(0.7rem, 1vw, 0.85rem);
+  letter-spacing: 0.24em;
+}
+
+.reticle {
+  position: relative;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid rgb(185 255 67 / 55%);
+  border-radius: 50%;
+}
+
+.reticle b {
+  position: absolute;
+  background: var(--acid);
+}
+
+.reticle b:first-child {
+  top: 50%;
+  left: 0.45rem;
+  width: 1rem;
+  height: 1px;
+}
+
+.reticle b:last-child {
+  top: 0.45rem;
+  left: 50%;
+  width: 1px;
+  height: 1rem;
+}
+
+.genericProgress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--acid);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.transition[data-active]:not([data-project-active="true"]) .genericProgress {
+  transform: scaleX(1);
+  transition: transform 390ms ease;
+}
+
+.topCurtain,
+.bottomCurtain {
+  z-index: 2;
+  right: 0;
+  left: 0;
+  display: block;
+  height: 50.1%;
+  margin: 0;
+  pointer-events: none;
+  transition: transform 380ms cubic-bezier(.77, 0, .18, 1);
+}
+
+.topCurtain {
+  top: 0;
+  transform: translateY(-100%);
+}
+
+.bottomCurtain {
+  bottom: 0;
+  transform: translateY(100%);
+}
+
+.transition[data-project-phase="closing"] .topCurtain,
+.transition[data-project-phase="loading"] .topCurtain {
+  transform: translateY(0);
+}
+
+.transition[data-project-phase="closing"] .bottomCurtain,
+.transition[data-project-phase="loading"] .bottomCurtain {
+  transform: translateY(0);
+}
+
+.transition[data-project-phase="revealing"] .topCurtain {
+  transform: translateY(-100%);
+  transition-duration: 500ms;
+}
+
+.transition[data-project-phase="revealing"] .bottomCurtain {
+  transform: translateY(100%);
+  transition-duration: 500ms;
+}
+
+.projectInfo {
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  left: 50%;
+  width: min(70rem, calc(100vw - (2 * var(--page-gutter))));
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, calc(-50% + 10px));
+  transition: opacity 160ms ease, transform 260ms var(--ease-out);
+}
+
+.transition[data-project-phase="loading"] .projectInfo {
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
+
+.transition[data-project-phase="revealing"] .projectInfo {
+  opacity: 0;
+  transform: translate(-50%, calc(-50% - 7px));
+  transition-duration: 110ms;
+}
+
+.progressRow {
+  display: grid;
+  grid-template-columns: auto minmax(8rem, 1fr) 3.2rem;
+  gap: clamp(1rem, 3vw, 3.2rem);
+  align-items: center;
+  color: rgb(244 242 236 / 58%);
+  font-family: var(--font-mono);
+  font-size: clamp(0.62rem, 0.85vw, 0.76rem);
+  letter-spacing: 0.12em;
+}
+
+.progressRow > span,
+.progressRow > strong {
+  white-space: nowrap;
+}
+
+.progressRow > strong {
+  color: var(--project-transition-accent);
+  font-size: inherit;
+  font-weight: 500;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.progressRow > i {
+  position: relative;
+  overflow: hidden;
+  height: 1px;
+  background: rgb(244 242 236 / 14%);
+}
+
+.progressRow > i b {
+  position: absolute;
+  inset: 0;
+  display: block;
+  background: var(--project-transition-accent);
+  transform: scaleX(var(--project-transition-progress));
+  transform-origin: left;
+  transition: transform 64ms linear;
+}
+
+.projectInfo > p {
+  max-width: 17ch;
+  margin: clamp(5rem, 14vh, 9rem) 0 0;
+  color: #f4f2ec;
+  font-size: clamp(2.4rem, 6vw, 6.8rem);
+  font-weight: 820;
+  letter-spacing: -0.075em;
+  line-height: 0.94;
+  text-wrap: balance;
+}
+
+.reducedLayer {
+  z-index: 4;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.transition[data-project-phase="reduced-cover"] .reducedLayer {
+  opacity: 1;
+  transition: opacity 75ms linear;
+}
+
+.transition[data-project-phase="reduced-reveal"] .reducedLayer {
+  opacity: 0;
+  transition: opacity 75ms linear;
+}
+
+:global(a[data-project-transition]) {
+  position: relative;
+  transform-origin: center;
+}
+
+:global(a[data-project-transition])::after {
+  position: absolute;
+  z-index: 20;
+  inset: 0;
+  background: #080a09;
+  content: "";
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 120ms ease;
+}
+
+:global(a[data-project-transition][data-transition-state="pressed"]) {
+  transform: scale(0.992) !important;
+  transition: transform 120ms ease !important;
+}
+
+:global(a[data-project-transition][data-transition-state="pressed"])::after {
+  opacity: 0.12;
+}
+
+:global(a[data-project-transition] [data-project-arrow]) {
+  transition: transform 120ms ease;
+}
+
+:global(a[data-project-transition][data-transition-state="pressed"] [data-project-arrow]) {
+  transform: translate(4px, -4px);
+}
+
+:global(#main-content[data-project-reveal="full"]) {
+  animation: project-page-reveal 500ms cubic-bezier(.2, .8, .2, 1) both;
+  transform-origin: center top;
+}
+
+:global(#main-content[data-project-reveal="reduced"]) {
+  animation: project-page-reveal-reduced 75ms linear both;
+}
+
+.srOnly {
+  position: fixed;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+
+@keyframes project-page-reveal {
+  from { opacity: 0.9; transform: scale(1.018); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes project-page-reveal-reduced {
+  from { opacity: 0.94; }
+  to { opacity: 1; }
+}
+
+@media (max-width: 680px) {
+  .projectInfo {
+    width: calc(100vw - 2rem);
+  }
+
+  .progressRow {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.85rem 1rem;
+  }
+
+  .progressRow > i {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+
+  .projectInfo > p {
+    max-width: 12ch;
+    margin-top: clamp(4rem, 12vh, 6rem);
+    font-size: clamp(2.25rem, 12vw, 4.3rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .transition,
+  .genericLayer,
+  .genericProgress,
+  .topCurtain,
+  .bottomCurtain,
+  .projectInfo,
+  .progressRow > i b,
+  :global(a[data-project-transition]),
+  :global(a[data-project-transition])::after,
+  :global(a[data-project-transition] [data-project-arrow]) {
+    transition-duration: 0ms !important;
+  }
+
+  .transition[data-active]:not([data-project-active="true"]) {
+    display: none;
+  }
+}

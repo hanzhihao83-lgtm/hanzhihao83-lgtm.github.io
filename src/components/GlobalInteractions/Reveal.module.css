@@ -1,0 +1,31 @@
+.reveal {
+  opacity: 1;
+  translate: none;
+  transition: opacity 520ms var(--ease-out), translate 520ms var(--ease-out);
+}
+
+:global(html[data-reveal-runtime="true"]) .reveal:not([data-visible="true"]) {
+  opacity: 0;
+  translate: 0 1.25rem;
+}
+
+.reveal[data-delay="short"] {
+  transition-delay: 60ms;
+}
+
+.reveal[data-delay="long"] {
+  transition-delay: 120ms;
+}
+
+.reveal[data-visible="true"] {
+  opacity: 1;
+  translate: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  :global(html[data-reveal-runtime="true"]) .reveal {
+    opacity: 1;
+    translate: none;
+  }
+}

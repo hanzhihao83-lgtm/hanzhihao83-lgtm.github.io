@@ -1,0 +1,711 @@
+.header {
+  position: fixed;
+  z-index: 50;
+  top: 1rem;
+  left: max(var(--page-gutter), calc((100vw - var(--content-max)) / 2));
+  width: min(calc(100% - var(--page-gutter) * 2), var(--content-max));
+}
+
+.bar {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: minmax(118px, 190px) minmax(0, 1fr) 126px;
+  column-gap: 12px;
+  align-items: center;
+  min-height: 4rem;
+  padding: 0.4rem 0.45rem 0.4rem 1.2rem;
+  border: 1px solid var(--line);
+  border-radius: 2rem;
+  background: color-mix(in srgb, var(--paper) 92%, transparent);
+  box-shadow: 0 18px 48px rgb(16 18 16 / 8%);
+}
+
+.bar::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border-radius: inherit;
+  backdrop-filter: blur(14px);
+  content: "";
+}
+
+.leftSlot {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.brand {
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 0.36rem;
+  align-items: center;
+  width: max-content;
+  font-family: var(--font-mono);
+  font-weight: 900;
+  letter-spacing: -0.07em;
+  transition: transform 390ms var(--ease-out), opacity 180ms ease;
+}
+
+.brand i {
+  width: 0.36rem;
+  height: 0.36rem;
+  border-radius: 50%;
+  background: var(--green);
+}
+
+.returnButton {
+  display: inline-flex;
+  overflow: hidden;
+  flex: 0 0 auto;
+  gap: 0.35rem;
+  align-items: center;
+  justify-content: center;
+  width: 0;
+  min-height: 42px;
+  padding: 0;
+  border-radius: 999px;
+  background: var(--dark);
+  color: var(--paper);
+  font-size: 0.76rem;
+  font-weight: 750;
+  opacity: 0;
+  transform: scaleX(0.72);
+  transform-origin: left center;
+  white-space: nowrap;
+  pointer-events: none;
+  transition: width 390ms var(--ease-out), padding 390ms var(--ease-out), opacity 180ms ease, transform 390ms var(--ease-out), background-color 180ms ease;
+}
+
+.returnButton[data-visible="true"] {
+  width: 6.8rem;
+  padding: 0 0.75rem;
+  opacity: 1;
+  transform: scaleX(1);
+  pointer-events: auto;
+}
+
+.returnButton:active {
+  transform: scale(0.96);
+}
+
+.returnArrow {
+  display: inline-block;
+  transition: transform 180ms var(--ease-out);
+}
+
+.returnButton:hover .returnArrow {
+  transform: translateX(-4px);
+}
+
+.returnLabelMobile {
+  display: none;
+}
+
+.primaryNav {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  width: min(520px, 100%);
+  min-width: 0;
+  justify-self: center;
+  gap: clamp(0.18rem, 0.6vw, 0.5rem);
+}
+
+.navLink {
+  --nav-ring-x: 50%;
+  --nav-ring-y: 50%;
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  overflow: visible;
+  min-width: 0;
+  min-height: 42px;
+  padding: 0 0.5rem;
+  gap: 0.42rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  color: var(--ink-muted);
+  font-size: 0.84rem;
+  font-weight: 680;
+  white-space: nowrap;
+  transform-origin: center;
+  transition: color 220ms ease, transform 120ms ease;
+}
+
+.navLink::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--dark);
+  content: "";
+  opacity: 0;
+  transform: scaleX(0.58);
+  transition: transform 300ms var(--ease-out), opacity 220ms ease, background-color 220ms ease;
+}
+
+.navLink::after {
+  position: absolute;
+  z-index: 2;
+  bottom: 2px;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--acid);
+  content: "";
+  opacity: 0;
+  transform: translate(-50%, 8px) scale(0.2);
+  transition: transform 300ms var(--ease-out), opacity 180ms ease, background-color 220ms ease;
+}
+
+.navLink:hover {
+  color: var(--ink);
+}
+
+.navLink[data-selected="true"] {
+  color: var(--paper);
+}
+
+.navLink[data-selected="true"]::before {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+.navLink[data-selected="true"]::after {
+  opacity: 1;
+  transform: translate(-50%, 0) scale(1);
+}
+
+.navLink[data-feedback="true"] {
+  animation: nav-press 120ms ease;
+}
+
+.navIndex,
+.navLabel {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+}
+
+.navIndex {
+  color: #626762;
+  font-family: var(--font-mono);
+  font-size: 0.54rem;
+  transition: color 220ms ease;
+}
+
+.navLink[data-selected="true"] .navIndex {
+  color: var(--acid);
+}
+
+.clickRing {
+  position: absolute;
+  z-index: 3;
+  top: var(--nav-ring-y);
+  left: var(--nav-ring-x);
+  width: 10px;
+  height: 10px;
+  border: 1px solid var(--acid);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  animation: nav-ring 520ms ease-out;
+}
+
+.contactButton {
+  isolation: isolate;
+  display: inline-flex;
+  width: 126px;
+  min-width: 0;
+  min-height: 3.2rem;
+  padding: 0 1.2rem;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  border: 0;
+  border-radius: 1.6rem;
+  background: var(--dark);
+  color: var(--paper);
+  font-weight: 750;
+  white-space: nowrap;
+  transition: background-color 180ms ease, color 180ms ease, transform 120ms ease;
+}
+
+.contactButton span,
+.contactButton i {
+  position: relative;
+  z-index: 1;
+  color: inherit;
+}
+
+.contactButton i {
+  font-style: normal;
+  transition: transform 240ms var(--ease-out);
+}
+
+.contactButton:hover { background: #171a18; }
+.contactButton:active { transform: scale(0.97); }
+.contactButton[aria-expanded="true"] i { transform: rotate(180deg); }
+
+:global(body[data-contact-open="true"] [aria-label="打开韩志浩的站内助手"]),
+:global(body[data-contact-open="true"] [aria-label="作品集欢迎提示"]),
+:global(body[data-contact-open="true"] [aria-label="韩志浩的站内助手"]) {
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+.contactLayer {
+  position: fixed;
+  z-index: 2;
+  inset: 0;
+  display: grid;
+  overflow-y: auto;
+  padding: clamp(6.5rem, 12vh, 9rem) var(--page-gutter) 2rem;
+  place-items: start center;
+  visibility: hidden;
+  pointer-events: none;
+  transition: visibility 0s linear 280ms;
+}
+
+.contactLayer[data-open="true"] {
+  visibility: visible;
+  pointer-events: auto;
+  transition-delay: 0s;
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: rgb(241 240 235 / 72%);
+  opacity: 0;
+  transition: opacity 240ms ease;
+}
+
+.contactLayer[data-open="true"] .backdrop {
+  opacity: 1;
+}
+
+.contactCard {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(13rem, 15rem) minmax(0, 1fr);
+  gap: clamp(1.5rem, 3vw, 3.25rem);
+  width: min(61.25rem, calc(100vw - var(--page-gutter) * 2));
+  padding: clamp(1rem, 2vw, 1.5rem);
+  border: 1px solid rgb(255 255 255 / 11%);
+  border-radius: clamp(1.6rem, 3vw, 2.4rem);
+  background: #0a0c0b;
+  color: var(--paper);
+  box-shadow: 0 32px 100px rgb(0 0 0 / 28%);
+  opacity: 0;
+  transform: translateY(-0.8rem) scale(0.985);
+  transform-origin: top center;
+  transition: opacity 240ms ease, transform 280ms var(--ease-out);
+}
+
+.contactLayer[data-open="true"] .contactCard {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.idCard {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  min-height: 20rem;
+  padding: 1.25rem;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 1.55rem;
+  background: #deded8;
+  color: #111412;
+}
+
+.idCard::after {
+  position: absolute;
+  right: -18%;
+  bottom: 21%;
+  width: 76%;
+  height: 1px;
+  background: rgb(17 20 18 / 13%);
+  content: "";
+  transform: rotate(-32deg);
+  transform-origin: right center;
+}
+
+.idNumber,
+.idCard > div {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+}
+
+.idCard > strong {
+  margin-top: auto;
+  font-size: clamp(5.5rem, 10vw, 8rem);
+  font-weight: 850;
+  letter-spacing: -0.11em;
+  line-height: 0.72;
+}
+
+.idCard > div {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  margin-top: 2rem;
+  justify-content: space-between;
+}
+
+.availabilityDot {
+  position: absolute;
+  top: 1.3rem;
+  right: 1.3rem;
+  width: 0.62rem;
+  height: 0.62rem;
+  border-radius: 50%;
+  background: var(--acid);
+  box-shadow: 0 0 0 0.38rem rgb(185 255 67 / 16%);
+}
+
+.identity {
+  align-self: stretch;
+  display: flex;
+  min-width: 0;
+  padding: clamp(2.25rem, 5vw, 4.5rem) clamp(0.5rem, 2vw, 1.5rem) 1rem 0;
+  flex-direction: column;
+}
+
+.identity > span {
+  color: var(--acid);
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+}
+
+.identity h2 {
+  margin: clamp(1.75rem, 4vw, 3.25rem) 0 0.65rem;
+  font-size: clamp(3.2rem, 7vw, 5.8rem);
+  font-weight: 820;
+  letter-spacing: -0.075em;
+  line-height: 0.9;
+}
+
+.identity p {
+  margin: 0;
+  color: rgb(255 255 255 / 62%);
+  font-size: clamp(0.9rem, 1.4vw, 1.08rem);
+}
+
+.contactDetails {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin: auto 0 0;
+  padding-top: 2.25rem;
+  border-top: 1px solid rgb(255 255 255 / 12%);
+}
+
+.contactDetails div { min-width: 0; }
+
+.contactDetails dt {
+  margin-bottom: 0.5rem;
+  color: rgb(255 255 255 / 38%);
+  font-family: var(--font-mono);
+  font-size: 0.54rem;
+  letter-spacing: 0.13em;
+}
+
+.contactDetails dd {
+  overflow-wrap: anywhere;
+  margin: 0;
+  color: rgb(255 255 255 / 82%);
+  font-family: var(--font-mono);
+  font-size: clamp(0.72rem, 1.2vw, 0.9rem);
+  letter-spacing: 0.02em;
+}
+
+.contactActions {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.65rem;
+  padding-top: 0.25rem;
+}
+
+.contactActions a,
+.contactActions button {
+  display: inline-flex;
+  min-width: 0;
+  min-height: 3.4rem;
+  padding: 0.85rem 1.1rem;
+  gap: 0.45rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgb(255 255 255 / 16%);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--paper);
+  text-align: center;
+  font-size: 0.78rem;
+  font-weight: 720;
+  transition: border-color 180ms ease, background-color 180ms ease, color 180ms ease, transform 120ms ease;
+}
+
+.contactActions a:first-child {
+  border-color: var(--acid);
+  background: var(--acid);
+  color: var(--ink);
+}
+
+.contactActions a:hover,
+.contactActions button:hover { border-color: rgb(255 255 255 / 42%); }
+.contactActions a:first-child:hover { background: #c8ff68; }
+.contactActions a:active,
+.contactActions button:active { transform: scale(0.98); }
+
+.close {
+  position: absolute;
+  z-index: 3;
+  top: 1.25rem;
+  right: 1.25rem;
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  place-items: center;
+  border: 1px solid rgb(255 255 255 / 18%);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--paper);
+  font-size: 1.35rem;
+  line-height: 1;
+  transition: border-color 180ms ease, background-color 180ms ease, transform 180ms var(--ease-out);
+}
+
+.close:hover { border-color: var(--acid); background: rgb(185 255 67 / 8%); transform: rotate(4deg); }
+.close:active { transform: scale(0.95); }
+
+@keyframes nav-press {
+  0%, 100% { transform: scale(1); }
+  48% { transform: scale(0.96); }
+}
+
+@keyframes nav-ring {
+  0% { opacity: 0.72; transform: translate(-50%, -50%) scale(0.25); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(4.6); }
+}
+
+@media (max-width: 900px) {
+  .bar {
+    grid-template-columns: 106px minmax(0, 1fr) 102px;
+    column-gap: 8px;
+    padding-left: 0.75rem;
+  }
+
+  .leftSlot[data-has-return="true"] .brand {
+    width: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .returnButton[data-visible="true"] {
+    width: 6.25rem;
+    padding-inline: 0.55rem;
+  }
+
+  .primaryNav {
+    gap: 0.16rem;
+  }
+
+  .navLink {
+    padding-inline: 0.25rem;
+    gap: 0.28rem;
+    font-size: 0.76rem;
+  }
+
+  .navIndex {
+    font-size: 0.48rem;
+  }
+
+  .contactButton {
+    width: 102px;
+    padding-inline: 0.85rem;
+    gap: 0.55rem;
+  }
+}
+
+@media (max-width: 680px) {
+  .header {
+    top: 0.5rem;
+    left: 0.5rem;
+    width: calc(100% - 1rem);
+  }
+
+  .bar {
+    grid-template-columns: auto minmax(0, 1fr) 42px;
+    column-gap: 4px;
+    min-height: 3.65rem;
+    padding: 0.25rem;
+    border-radius: 1.9rem;
+  }
+
+  .leftSlot {
+    gap: 0;
+  }
+
+  .leftSlot[data-has-return="true"] .brand {
+    display: none;
+  }
+
+  .brand {
+    min-width: 2.65rem;
+    min-height: 42px;
+    justify-content: center;
+  }
+
+  .returnButton[data-visible="true"] {
+    width: 3.75rem;
+    padding-inline: 0.42rem;
+    font-size: 0.72rem;
+  }
+
+  .returnLabel {
+    display: none;
+  }
+
+  .returnLabelMobile {
+    display: inline;
+  }
+
+  .primaryNav {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    width: 100%;
+    gap: 0;
+  }
+
+  .navLink {
+    min-height: 42px;
+    padding-inline: 0.08rem;
+    gap: 0;
+    font-size: clamp(0.66rem, 3vw, 0.74rem);
+    letter-spacing: -0.035em;
+  }
+
+  .navIndex {
+    display: none;
+  }
+
+  .contactButton {
+    width: 42px;
+    height: 42px;
+    min-height: 42px;
+    padding: 0;
+    justify-content: center;
+    border-radius: 50%;
+  }
+
+  .contactButton span {
+    display: none;
+  }
+
+  .contactCard {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.8rem;
+    width: 100%;
+    padding: 0.7rem;
+    border-radius: 1.5rem;
+    transform: translateY(-0.6rem) scale(0.985);
+  }
+
+  .contactLayer {
+    padding: 4.9rem 0.55rem max(1rem, env(safe-area-inset-bottom));
+  }
+
+  .contactLayer[data-open="true"] .contactCard {
+    transform: translateY(0) scale(1);
+  }
+
+  .idCard {
+    min-height: 8.75rem;
+    padding: 1rem;
+    border-radius: 1.15rem;
+  }
+
+  .idCard > strong {
+    font-size: 4.7rem;
+    line-height: 0.68;
+  }
+
+  .idCard > div { margin-top: 1rem; }
+  .availabilityDot { top: 1.05rem; right: 3.9rem; }
+
+  .identity {
+    padding: 1rem 0.4rem 0.45rem;
+  }
+
+  .identity h2 {
+    margin: 1.6rem 0 0.55rem;
+    font-size: clamp(2.7rem, 15vw, 3.7rem);
+  }
+
+  .contactDetails {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 1.25rem;
+  }
+
+  .contactActions {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.5rem;
+  }
+
+  .contactActions a,
+  .contactActions button {
+    min-height: 3rem;
+  }
+
+  .close {
+    top: 1rem;
+    right: 1rem;
+    width: 2.65rem;
+    height: 2.65rem;
+    border-color: rgb(17 20 18 / 18%);
+    background: rgb(222 222 216 / 86%);
+    color: #111412;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand,
+  .returnButton,
+  .returnArrow,
+  .navLink,
+  .navLink::before,
+    .navLink::after,
+    .contactButton,
+    .contactButton i,
+    .contactCard,
+    .backdrop,
+    .contactActions a,
+    .contactActions button,
+    .close {
+    transition-duration: 0ms;
+  }
+
+  .navLink[data-feedback="true"],
+  .clickRing {
+    animation: none;
+  }
+}

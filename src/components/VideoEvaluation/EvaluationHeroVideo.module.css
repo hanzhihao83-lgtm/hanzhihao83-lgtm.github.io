@@ -1,0 +1,23 @@
+.stage{--hero-video-accent:#b9ff43;position:relative;isolation:isolate;display:block;overflow:hidden;width:100%;aspect-ratio:16/9;padding:0;border:1px solid color-mix(in srgb,var(--hero-video-accent) 34%,transparent);border-radius:24px;background:#050706;color:#f1f0eb;text-align:left;transform:translate3d(0,0,0);transition:transform 500ms cubic-bezier(.2,.8,.2,1),box-shadow 500ms cubic-bezier(.2,.8,.2,1);cursor:pointer}
+.video{position:absolute;z-index:0;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.72) contrast(1.06);transform:scale(1);transition:transform 1200ms cubic-bezier(.2,.8,.2,1)}
+.tonalOverlay{position:absolute;z-index:1;inset:0;background:linear-gradient(90deg,rgb(2 4 3 / 28%) 0%,transparent 18%,transparent 78%,rgb(2 4 3 / 30%) 100%),linear-gradient(180deg,rgb(2 4 3 / 17%) 0%,transparent 42%,rgb(2 4 3 / 38%) 100%);pointer-events:none}
+.scanLine{position:absolute;z-index:2;top:20%;right:0;left:0;height:1px;background:color-mix(in srgb,var(--hero-video-accent) 78%,transparent);box-shadow:0 0 8px color-mix(in srgb,var(--hero-video-accent) 38%,transparent);animation:scan 5s ease-in-out infinite;pointer-events:none}
+.hud{position:absolute;z-index:4;top:24px;right:24px;left:24px;display:flex;justify-content:space-between;gap:1rem;color:rgb(241 240 235 / 82%);font-family:var(--font-mono);font-size:.6rem;letter-spacing:.14em;line-height:1;pointer-events:none}
+.corner{position:absolute;z-index:3;width:24px;height:24px;border-color:color-mix(in srgb,var(--hero-video-accent) 62%,transparent);pointer-events:none}
+.corner[data-corner="top-left"]{top:18px;left:18px;border-top:1px solid;border-left:1px solid}
+.corner[data-corner="top-right"]{top:18px;right:18px;border-top:1px solid;border-right:1px solid}
+.corner[data-corner="bottom-left"]{bottom:18px;left:18px;border-bottom:1px solid;border-left:1px solid}
+.corner[data-corner="bottom-right"]{right:18px;bottom:18px;border-right:1px solid;border-bottom:1px solid}
+.reticle{position:absolute;z-index:4;top:50%;left:50%;color:color-mix(in srgb,var(--hero-video-accent) 65%,transparent);font-family:var(--font-mono);font-size:.9rem;line-height:1;translate:-50% -50%;pointer-events:none}
+.waveform{position:absolute;z-index:4;right:24px;bottom:24px;left:24px;display:flex;height:48px;align-items:flex-end;gap:clamp(3px,.45vw,7px);pointer-events:none}
+.waveform i{display:block;width:2px;height:var(--wave-height);flex:1 1 2px;max-width:2px;background:color-mix(in srgb,var(--hero-video-accent) 78%,transparent);transform-origin:bottom;animation:wave var(--wave-duration) ease-in-out var(--wave-delay) infinite alternate;animation-play-state:paused}
+.stage[data-playing] .waveform i{animation-play-state:running}
+.posterState{position:absolute;z-index:4;right:24px;bottom:24px;padding:.4rem .5rem;background:rgb(3 5 4 / 72%);color:rgb(241 240 235 / 70%);font-family:var(--font-mono);font-size:.55rem;letter-spacing:.1em;pointer-events:none}
+.opening{position:absolute;z-index:6;inset:0;display:grid;place-items:center;background:rgb(4 6 5 / 72%);color:var(--hero-video-accent);font-family:var(--font-mono);font-size:.64rem;letter-spacing:.16em;animation:opening 360ms cubic-bezier(.2,.8,.2,1) both;pointer-events:none}
+.stage:focus-visible{outline:2px solid var(--hero-video-accent);outline-offset:5px}
+@media(hover:hover) and (pointer:fine) and (min-width:681px){.stage:hover{transform:translate3d(0,-6px,0);box-shadow:0 22px 55px rgb(0 0 0 / 34%)}.stage:hover .video{transform:scale(1.025)}}
+@media(max-width:680px){.stage{border-radius:18px}.hud{top:16px;right:16px;left:16px;font-size:.56rem}.corner{width:20px;height:20px}.corner[data-corner="top-left"]{top:11px;left:11px}.corner[data-corner="top-right"]{top:11px;right:11px}.corner[data-corner="bottom-left"]{bottom:11px;left:11px}.corner[data-corner="bottom-right"]{right:11px;bottom:11px}.reticle{display:none}.waveform{right:16px;bottom:14px;left:16px;height:32px;gap:4px}.waveform i:nth-child(n+23){display:none}}
+@media(prefers-reduced-motion:reduce){.stage,.video{transition:none}.scanLine{top:50%;animation:none}.waveform i,.opening{animation:none}}
+@keyframes scan{0%,100%{top:20%}50%{top:80%}}
+@keyframes wave{0%{scale:1 .86;opacity:.64}100%{scale:1 1;opacity:.94}}
+@keyframes opening{0%{opacity:0}35%,78%{opacity:1}100%{opacity:0}}

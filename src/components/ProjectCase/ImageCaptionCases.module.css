@@ -1,0 +1,453 @@
+.section {
+  --caption-violet: #9d8cff;
+  position: relative;
+}
+
+.section::before {
+  position: absolute;
+  top: 7.25rem;
+  right: 0;
+  left: 0;
+  height: 1px;
+  background: linear-gradient(90deg, var(--case-accent), rgb(157 140 255 / 36%), transparent 72%);
+  content: "";
+}
+
+.sectionHeader {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 2rem;
+  align-items: end;
+  min-height: 7.25rem;
+  padding-bottom: 1.2rem;
+}
+
+.sectionHeader span,
+.sectionHeader > p,
+.cardHeading span,
+.cardHeading > p,
+.taskOverlay,
+.panelHeader span,
+.panelHeader > p,
+.fieldGrid dt {
+  font-family: var(--font-mono);
+  letter-spacing: 0.12em;
+}
+
+.sectionHeader span {
+  color: var(--case-accent);
+  font-size: 0.65rem;
+}
+
+.sectionHeader h2 {
+  margin: 1.3rem 0 0;
+  font-size: clamp(3rem, 6vw, 6.6rem);
+  letter-spacing: -0.075em;
+  line-height: 0.92;
+}
+
+.sectionHeader > p {
+  margin: 0 0 0.25rem;
+  color: rgb(255 255 255 / 38%);
+  font-size: 0.6rem;
+}
+
+.caseGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1.25rem, 2.3vw, 2rem);
+  margin-top: clamp(3rem, 5vw, 5rem);
+}
+
+.caseCard {
+  min-width: 0;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.section[data-visible="true"] .caseCard {
+  animation: caption-card-enter 560ms var(--enter-delay) var(--ease-out) both;
+}
+
+.cardHeading {
+  display: flex;
+  gap: 1.5rem;
+  align-items: end;
+  justify-content: space-between;
+  min-height: 4.7rem;
+  padding: 0 0.15rem 0.8rem;
+}
+
+.cardHeading > div {
+  display: flex;
+  gap: 1rem;
+  align-items: baseline;
+  min-width: 0;
+}
+
+.cardHeading span {
+  flex: 0 0 auto;
+  color: var(--case-accent);
+  font-size: 0.62rem;
+}
+
+.cardHeading h3 {
+  margin: 0;
+  font-size: clamp(1.25rem, 2.2vw, 1.8rem);
+  letter-spacing: -0.045em;
+}
+
+.cardHeading > p {
+  margin: 0;
+  color: rgb(255 255 255 / 42%);
+  font-size: 0.58rem;
+  text-align: right;
+}
+
+.visualButton {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  padding: 0;
+  border: 1px solid rgb(157 140 255 / 24%);
+  border-radius: 0;
+  background: #050b0d;
+  color: #fff;
+  cursor: pointer;
+  isolation: isolate;
+  transition: border-color 240ms ease, background-color 240ms ease;
+}
+
+.caseCard[data-active="true"] .visualButton {
+  border-color: color-mix(in srgb, var(--case-accent) 82%, white 18%);
+}
+
+.visualButton:focus-visible {
+  outline: 2px solid var(--case-accent);
+  outline-offset: 4px;
+}
+
+.caseImage {
+  position: absolute;
+  z-index: -2;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: filter 280ms ease, transform 360ms var(--ease-out);
+}
+
+.caseCard:not([data-active="true"]) .caseImage {
+  filter: brightness(0.72) saturate(0.82);
+}
+
+.caseCard:hover .caseImage,
+.visualButton:focus-visible .caseImage {
+  filter: brightness(0.92) saturate(0.94);
+  transform: scale(1.025);
+}
+
+.imageGrid {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background:
+    linear-gradient(90deg, transparent 49.9%, rgb(157 140 255 / 10%) 50%, transparent 50.1%),
+    linear-gradient(transparent 49.9%, rgb(157 140 255 / 10%) 50%, transparent 50.1%);
+  background-size: 25% 25%;
+  box-shadow: inset 0 0 0 12px rgb(5 11 13 / 12%);
+  pointer-events: none;
+}
+
+.taskOverlay {
+  position: absolute;
+  z-index: 3;
+  right: 0.8rem;
+  bottom: 0.8rem;
+  padding: 0.45rem 0.55rem;
+  border: 1px solid rgb(255 255 255 / 15%);
+  background: rgb(5 11 13 / 82%);
+  color: rgb(255 255 255 / 84%);
+  font-size: 0.58rem;
+  opacity: 0;
+  transform: translateY(5px);
+  transition: opacity 220ms ease, transform 220ms ease;
+}
+
+.caseCard:hover .taskOverlay,
+.visualButton:focus-visible .taskOverlay,
+.caseCard[data-active="true"] .taskOverlay {
+  opacity: 1;
+  transform: none;
+}
+
+.scanLine {
+  position: absolute;
+  z-index: 2;
+  top: -8%;
+  right: 0;
+  left: 0;
+  height: 1px;
+  background: var(--case-accent);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--case-accent) 58%, transparent);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.visualButton[data-visible="true"] .scanLine {
+  animation: caption-scan 820ms 100ms ease-out both;
+}
+
+.anchors {
+  position: absolute;
+  z-index: 4;
+  inset: 0;
+  pointer-events: none;
+}
+
+.anchor {
+  position: absolute;
+  top: var(--anchor-y);
+  left: var(--anchor-x);
+  display: block;
+  cursor: help;
+  opacity: 0;
+  pointer-events: auto;
+  transform: translate(-50%, -50%);
+}
+
+.visualButton[data-visible="true"] .anchor {
+  animation: caption-anchor-in 260ms 760ms ease-out both;
+}
+
+.anchor i {
+  position: relative;
+  display: block;
+  width: 11px;
+  height: 11px;
+  border: 1px solid var(--case-accent);
+  background: rgb(7 19 21 / 62%);
+  transform: rotate(45deg);
+}
+
+.anchor i::before,
+.anchor i::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: var(--case-accent);
+  content: "";
+  transform: translate(-50%, -50%);
+}
+
+.anchor i::before { width: 19px; height: 1px; }
+.anchor i::after { width: 1px; height: 19px; }
+
+.anchor b {
+  position: absolute;
+  top: 13px;
+  left: 8px;
+  width: max-content;
+  max-width: 8rem;
+  padding: 0.32rem 0.42rem;
+  border-left: 1px solid var(--case-accent);
+  background: rgb(5 11 13 / 88%);
+  color: #f1f0eb;
+  font-family: var(--font-mono);
+  font-size: 0.56rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  opacity: 0;
+  transform: translateX(-3px);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.anchor:hover b {
+  opacity: 1;
+  transform: none;
+}
+
+.descriptionPanel {
+  margin-top: clamp(3rem, 6vw, 5.5rem);
+  border-top: 1px solid var(--case-accent);
+  border-right: 1px solid rgb(157 140 255 / 20%);
+  border-bottom: 1px solid rgb(157 140 255 / 20%);
+  border-left: 1px solid rgb(157 140 255 / 20%);
+  background:
+    linear-gradient(rgb(157 140 255 / 3%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(157 140 255 / 3%) 1px, transparent 1px),
+    rgb(3 12 14 / 56%);
+  background-size: 18px 18px;
+  animation: caption-panel-switch 260ms var(--ease-out) both;
+}
+
+.panelHeader {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: clamp(1.25rem, 2.3vw, 2rem);
+  border-bottom: 1px solid rgb(255 255 255 / 10%);
+}
+
+.panelHeader span {
+  color: var(--case-accent);
+  font-size: 0.6rem;
+}
+
+.panelHeader h3 {
+  margin: 0.7rem 0 0;
+  font-size: clamp(1.8rem, 3.5vw, 3.1rem);
+  letter-spacing: -0.055em;
+}
+
+.panelHeader > p {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  margin: 0;
+  color: var(--case-accent);
+  font-size: 0.62rem;
+}
+
+.panelHeader > p i {
+  width: 8px;
+  height: 8px;
+  border: 1px solid var(--case-accent);
+}
+
+.caption {
+  max-width: 62rem;
+  margin: 0;
+  padding: clamp(1.5rem, 3vw, 2.6rem);
+  color: rgb(255 255 255 / 84%);
+  font-size: clamp(1rem, 1.35vw, 1.25rem);
+  line-height: 1.85;
+}
+
+.fieldGrid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  margin: 0;
+  border-top: 1px solid rgb(255 255 255 / 10%);
+}
+
+.fieldGrid > div {
+  grid-column: span 2;
+  min-width: 0;
+  min-height: 9.5rem;
+  padding: 1.35rem;
+  border-right: 1px solid rgb(255 255 255 / 10%);
+}
+
+.fieldGrid > div:nth-child(3) { border-right: 0; }
+.fieldGrid > div:nth-child(4),
+.fieldGrid > div:nth-child(5) {
+  grid-column: span 3;
+  border-top: 1px solid rgb(255 255 255 / 10%);
+}
+.fieldGrid > div:nth-child(5) { border-right: 0; }
+
+.fieldGrid dt {
+  color: var(--caption-violet);
+  font-size: 0.58rem;
+}
+
+.fieldGrid dd {
+  margin: 2rem 0 0;
+  color: rgb(255 255 255 / 62%);
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+@keyframes caption-card-enter {
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes caption-scan {
+  0% { top: -8%; opacity: 0; }
+  12%, 78% { opacity: 0.72; }
+  100% { top: 108%; opacity: 0; }
+}
+
+@keyframes caption-anchor-in {
+  from { opacity: 0; transform: translate(-50%, -50%) scale(0.72); }
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+@keyframes caption-panel-switch {
+  from { opacity: 0; transform: translateX(10px); }
+}
+
+@media (max-width: 850px) {
+  .sectionHeader {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .section::before { top: 8.25rem; }
+  .caseGrid { gap: 1rem; }
+  .cardHeading { display: block; }
+  .cardHeading > p { margin-top: 0.55rem; text-align: left; }
+  .fieldGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .fieldGrid > div,
+  .fieldGrid > div:nth-child(4),
+  .fieldGrid > div:nth-child(5) {
+    grid-column: span 1;
+    border-top: 0;
+    border-right: 1px solid rgb(255 255 255 / 10%);
+    border-bottom: 1px solid rgb(255 255 255 / 10%);
+  }
+  .fieldGrid > div:nth-child(even) { border-right: 0; }
+  .fieldGrid > div:last-child { grid-column: 1 / -1; border-bottom: 0; }
+}
+
+@media (max-width: 620px) {
+  .section::before { top: 8.7rem; }
+  .caseGrid { grid-template-columns: 1fr; }
+  .cardHeading { min-height: 4.1rem; }
+  .cardHeading > div { justify-content: space-between; }
+  .cardHeading h3 { font-size: 1.35rem; }
+  .cardHeading > p { font-size: 0.6rem; }
+  .panelHeader { align-items: flex-start; }
+  .panelHeader > p { flex: 0 0 auto; padding-top: 0.15rem; }
+  .caption { font-size: 1rem; }
+  .fieldGrid { grid-template-columns: 1fr; }
+  .fieldGrid > div,
+  .fieldGrid > div:nth-child(4),
+  .fieldGrid > div:nth-child(5),
+  .fieldGrid > div:last-child {
+    grid-column: 1;
+    min-height: 0;
+    border-right: 0;
+    border-bottom: 1px solid rgb(255 255 255 / 10%);
+  }
+  .fieldGrid > div:last-child { border-bottom: 0; }
+  .fieldGrid dd { margin-top: 1rem; }
+  .anchor b { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .caseCard,
+  .section[data-visible="true"] .caseCard,
+  .descriptionPanel,
+  .scanLine,
+  .visualButton[data-visible="true"] .scanLine,
+  .anchor,
+  .visualButton[data-visible="true"] .anchor {
+    animation: none;
+  }
+
+  .caseCard,
+  .anchor {
+    opacity: 1;
+    transform: none;
+  }
+
+  .anchor { transform: translate(-50%, -50%); }
+  .caseImage,
+  .taskOverlay,
+  .anchor b { transition: none; }
+}

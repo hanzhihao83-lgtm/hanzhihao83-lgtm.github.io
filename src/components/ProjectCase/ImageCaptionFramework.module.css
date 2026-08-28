@@ -1,0 +1,301 @@
+.framework {
+  --framework-border: rgb(81 214 255 / 20%);
+  position: relative;
+}
+
+.framework::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 1px;
+  background: linear-gradient(90deg, var(--case-accent), rgb(81 214 255 / 20%) 56%, transparent);
+  content: "";
+}
+
+.header {
+  display: grid;
+  grid-template-columns: minmax(10rem, 0.55fr) minmax(0, 1fr) minmax(17rem, 0.65fr);
+  gap: clamp(2rem, 4vw, 4.5rem);
+  align-items: end;
+  padding-top: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.header > div span,
+.header > div p,
+.pipeline article > header,
+.pipeline article footer,
+.principleBar {
+  font-family: var(--font-mono);
+  letter-spacing: 0.12em;
+}
+
+.header > div span {
+  color: var(--case-accent);
+  font-size: 0.65rem;
+}
+
+.header > div p {
+  margin: 1rem 0 0;
+  color: rgb(255 255 255 / 34%);
+  font-size: 0.54rem;
+}
+
+.header h2 {
+  margin: 0;
+  font-size: clamp(3.5rem, 6vw, 6.6rem);
+  letter-spacing: -0.075em;
+  line-height: 0.88;
+}
+
+.intro {
+  margin: 0;
+  color: rgb(255 255 255 / 56%);
+  font-size: 0.9rem;
+  line-height: 1.75;
+}
+
+.pipeline {
+  position: relative;
+  margin-top: clamp(4rem, 7vw, 7rem);
+  padding-top: 2.2rem;
+}
+
+.track {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  height: 1px;
+  background: var(--framework-border);
+}
+
+.track span {
+  position: relative;
+}
+
+.track span::before {
+  position: absolute;
+  top: -4px;
+  left: 0;
+  width: 9px;
+  height: 9px;
+  border: 1px solid var(--case-accent);
+  border-radius: 50%;
+  background: #071315;
+  content: "";
+}
+
+.track span:last-child::after {
+  position: absolute;
+  top: -4px;
+  right: 0;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--case-accent);
+  box-shadow: 0 0 12px var(--case-accent);
+  content: "";
+}
+
+.track > i {
+  position: absolute;
+  z-index: 2;
+  top: -2px;
+  left: 0;
+  width: 24%;
+  height: 5px;
+  background: linear-gradient(90deg, transparent, var(--case-accent), transparent);
+  filter: drop-shadow(0 0 5px var(--case-accent));
+  animation: framework-scan 5.2s ease-in-out infinite;
+}
+
+.stageGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid var(--framework-border);
+  border-left: 1px solid var(--framework-border);
+}
+
+.stageGrid article {
+  display: flex;
+  min-width: 0;
+  min-height: 30rem;
+  flex-direction: column;
+  border-right: 1px solid var(--framework-border);
+  border-bottom: 1px solid var(--framework-border);
+  background:
+    linear-gradient(rgb(81 214 255 / 2.5%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(81 214 255 / 2.5%) 1px, transparent 1px),
+    rgb(3 11 13 / 40%);
+  background-size: 18px 18px;
+  transition: background-color 240ms ease, transform 300ms var(--ease-out);
+}
+
+.stageGrid article:hover {
+  z-index: 1;
+  background-color: rgb(81 214 255 / 5%);
+  transform: translateY(-6px);
+}
+
+.stageGrid article > header {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 1.1rem;
+  border-bottom: 1px solid var(--framework-border);
+  color: var(--case-accent);
+  font-size: 0.52rem;
+}
+
+.stageGrid article > header p {
+  margin: 0;
+  color: rgb(255 255 255 / 36%);
+}
+
+.stageBody {
+  padding: clamp(1.4rem, 2vw, 2rem);
+}
+
+.stageBody h3 {
+  max-width: 6ch;
+  margin: clamp(3rem, 6vw, 6rem) 0 1.4rem;
+  font-size: clamp(1.65rem, 2.4vw, 2.5rem);
+  letter-spacing: -0.055em;
+  line-height: 1.05;
+}
+
+.stageBody > p {
+  margin: 0;
+  color: rgb(255 255 255 / 52%);
+  font-size: 0.8rem;
+  line-height: 1.75;
+}
+
+.markRow {
+  display: flex;
+  gap: 5px;
+  margin: auto 1.5rem 1.3rem;
+}
+
+.markRow i {
+  width: clamp(1rem, 1.4vw, 1.45rem);
+  height: 4px;
+  background: rgb(255 255 255 / 10%);
+}
+
+.markRow i[data-active="true"] {
+  background: var(--case-accent);
+  box-shadow: 0 0 6px rgb(81 214 255 / 24%);
+}
+
+.stageGrid article footer {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 0.55rem;
+  align-items: center;
+  min-height: 5.7rem;
+  padding: 0.8rem 1rem;
+  border-top: 1px solid var(--framework-border);
+  font-size: 0.45rem;
+}
+
+.stageGrid article footer span {
+  color: rgb(255 255 255 / 28%);
+}
+
+.stageGrid article footer p,
+.stageGrid article footer strong {
+  display: block;
+  margin: 0.45rem 0 0;
+  color: rgb(255 255 255 / 54%);
+  font-size: 0.46rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+}
+
+.stageGrid article footer strong {
+  color: var(--case-accent);
+  text-align: right;
+}
+
+.stageGrid article footer > div:last-child span {
+  display: block;
+  text-align: right;
+}
+
+.stageGrid article footer > i {
+  color: var(--case-accent);
+  font-size: 0.8rem;
+  font-style: normal;
+}
+
+.principleBar {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr 1.5fr;
+  gap: 2rem;
+  align-items: center;
+  min-height: 6rem;
+  padding: 1.2rem 1.4rem;
+  border-right: 1px solid var(--framework-border);
+  border-bottom: 1px solid var(--framework-border);
+  border-left: 1px solid var(--framework-border);
+  background: rgb(81 214 255 / 3%);
+  font-size: 0.5rem;
+}
+
+.principleBar > span {
+  color: var(--case-accent);
+}
+
+.principleBar > strong {
+  color: #f1f0eb;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.principleBar > div {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+  justify-content: flex-end;
+  color: rgb(255 255 255 / 40%);
+}
+
+.principleBar p { margin: 0; }
+.principleBar i { color: var(--case-accent); font-style: normal; }
+
+@keyframes framework-scan {
+  0% { opacity: 0; transform: translateX(-100%); }
+  12%, 82% { opacity: 1; }
+  100% { opacity: 0; transform: translateX(420%); }
+}
+
+@media (max-width: 920px) {
+  .header { grid-template-columns: 1fr 1fr; }
+  .intro { grid-column: 2; }
+  .stageGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .track { display: none; }
+  .pipeline { padding-top: 0; }
+  .stageGrid article { min-height: 25rem; }
+}
+
+@media (max-width: 560px) {
+  .header { grid-template-columns: 1fr; }
+  .intro { grid-column: 1; }
+  .header h2 { margin-top: 1rem; font-size: 3.6rem; }
+  .stageGrid { grid-template-columns: 1fr; }
+  .stageGrid article { min-height: 22rem; }
+  .stageBody h3 { margin-top: 2.5rem; }
+  .principleBar { grid-template-columns: 1fr; gap: 0.8rem; }
+  .principleBar > div { justify-content: flex-start; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track > i { animation: none; }
+  .stageGrid article { transition: none; }
+  .stageGrid article:hover { transform: none; }
+}

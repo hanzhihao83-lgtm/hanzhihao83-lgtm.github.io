@@ -1,0 +1,431 @@
+.navigator {
+  position: relative;
+  min-width: 0;
+  margin-top: 5rem;
+  overflow: hidden;
+  border-top: 1px solid var(--eval-line);
+  border-bottom: 1px solid var(--eval-line);
+  background: #080b09;
+  font-family: var(--font-mono);
+  isolation: isolate;
+}
+
+.navigator::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: repeating-linear-gradient(to bottom, transparent 0 4px, rgb(185 255 67 / 2%) 5px);
+  content: "";
+  pointer-events: none;
+}
+
+.header {
+  display: flex;
+  min-height: 3rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0 1rem;
+  color: rgb(241 240 235 / 45%);
+  font-size: .55rem;
+  letter-spacing: .13em;
+}
+
+.syncStatus {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  text-align: right;
+}
+
+.syncStatus i {
+  width: .4rem;
+  height: .4rem;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: #b9ff43;
+  box-shadow: 0 0 .55rem rgb(185 255 67 / 35%);
+}
+
+.verifyLoop {
+  position: absolute;
+  z-index: 5;
+  top: 4.05rem;
+  right: 1rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: rgb(241 240 235 / 38%);
+  font: inherit;
+  font-size: .5rem;
+  letter-spacing: .09em;
+}
+
+.verifyLoop strong {
+  color: #b9ff43;
+  font-weight: 400;
+}
+
+.verifyLoop:hover,
+.verifyLoop:focus-visible {
+  color: var(--eval-text);
+}
+
+.track {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid rgb(241 240 235 / 16%);
+  border-bottom: 1px solid rgb(241 240 235 / 16%);
+  list-style: none;
+}
+
+.track > li {
+  position: relative;
+  min-width: 0;
+}
+
+.track > li::before,
+.track > li::after {
+  position: absolute;
+  z-index: 2;
+  top: -1px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  transform-origin: left center;
+  content: "";
+  pointer-events: none;
+}
+
+.track > li::before {
+  background: rgb(241 240 235 / 16%);
+}
+
+.track > li::after {
+  background: #b9ff43;
+  box-shadow: 0 0 .45rem rgb(185 255 67 / 22%);
+  transform: scaleX(0);
+  transition: transform 480ms var(--ease-out);
+}
+
+.track > li[data-completed]::after,
+.track > li:has(.step[data-active])::after {
+  transform: scaleX(1);
+}
+
+.step {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  min-height: 16.5rem;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 2.1rem .9rem 1rem;
+  border: 0;
+  border-left: 1px solid var(--eval-line);
+  background: transparent;
+  color: rgb(241 240 235 / 43%);
+  text-align: left;
+  transition: background 240ms ease, color 240ms ease;
+}
+
+.track > li:first-child .step {
+  border-left: 0;
+}
+
+.step:hover,
+.step:focus-visible,
+.step[data-active] {
+  background: linear-gradient(to bottom, color-mix(in srgb, var(--review-color) 5%, transparent), transparent 72%);
+  color: rgb(241 240 235 / 74%);
+}
+
+.step:focus-visible {
+  z-index: 4;
+  outline: 1px solid var(--review-color);
+  outline-offset: -2px;
+}
+
+.node {
+  position: absolute;
+  z-index: 3;
+  top: -.42rem;
+  left: 1rem;
+  width: .72rem;
+  height: .72rem;
+  border: 1px solid rgb(241 240 235 / 26%);
+  border-radius: 50%;
+  background: #080b09;
+  transition: background 240ms ease, border-color 240ms ease, box-shadow 240ms ease, transform 240ms var(--ease-out);
+}
+
+.step[data-active] .node {
+  border-color: var(--review-color);
+  background: var(--review-color);
+  box-shadow: 0 0 .75rem color-mix(in srgb, var(--review-color) 48%, transparent);
+  transform: scale(1.2);
+}
+
+.number,
+.anchor {
+  display: block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.number {
+  color: var(--review-color);
+  font-size: .56rem;
+  letter-spacing: .08em;
+}
+
+.anchor {
+  margin-top: .75rem;
+  color: rgb(241 240 235 / 28%);
+  font-size: .48rem;
+  letter-spacing: .04em;
+  transition: color 220ms ease;
+}
+
+.step[data-active] .anchor {
+  color: var(--review-color);
+}
+
+.step > strong {
+  margin-top: 2.8rem;
+  color: rgb(241 240 235 / 62%);
+  font-family: var(--font-sans);
+  font-size: .86rem;
+  font-weight: 600;
+  line-height: 1.35;
+  transition: color 220ms ease, transform 220ms var(--ease-out);
+}
+
+.step[data-active] > strong {
+  color: var(--eval-text);
+  transform: translateY(-3px);
+}
+
+.description {
+  margin-top: .7rem;
+  color: rgb(241 240 235 / 37%);
+  font-family: var(--font-sans);
+  font-size: .68rem;
+  line-height: 1.62;
+}
+
+.open {
+  margin-top: auto;
+  color: var(--review-color);
+  font-size: .48rem;
+  letter-spacing: .06em;
+  opacity: 0;
+  transform: translateY(.25rem);
+  transition: opacity 200ms ease, transform 200ms var(--ease-out);
+}
+
+.step[data-active] .open {
+  opacity: 1;
+  transform: none;
+}
+
+.contextBar {
+  display: grid;
+  min-height: 5.4rem;
+  grid-template-columns: 1.2fr .86fr .95fr auto;
+  align-items: stretch;
+  background: #070a08;
+}
+
+.contextBar > div {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: center;
+  padding: .8rem 1rem;
+  border-right: 1px solid var(--eval-line);
+}
+
+.contextBar span {
+  color: rgb(241 240 235 / 35%);
+  font-size: .48rem;
+  letter-spacing: .11em;
+}
+
+.contextBar strong {
+  display: block;
+  overflow: hidden;
+  margin-top: .5rem;
+  color: rgb(241 240 235 / 74%);
+  font-size: .62rem;
+  font-weight: 400;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.contextBar .contextAnchor {
+  color: var(--review-active);
+}
+
+.contextBar > button {
+  min-width: 10.3rem;
+  padding: 0 1rem;
+  border: 0;
+  background: transparent;
+  color: #b9ff43;
+  font: inherit;
+  font-size: .54rem;
+  letter-spacing: .08em;
+  white-space: nowrap;
+}
+
+.contextBar > button:hover,
+.contextBar > button:focus-visible {
+  background: rgb(185 255 67 / 4%);
+  color: var(--eval-text);
+}
+
+:global([data-review-context-highlight="true"]) {
+  animation: review-context-highlight 620ms ease-out;
+}
+
+@keyframes review-context-highlight {
+  0%, 100% { box-shadow: inset 0 0 0 1px transparent; }
+  42% { box-shadow: inset 0 0 0 1px rgb(185 255 67 / 52%); }
+}
+
+@media (max-width: 980px) {
+  .track {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .track > li:nth-child(n + 4) {
+    border-top: 1px solid var(--eval-line);
+  }
+
+  .track > li:nth-child(3n + 1) .step {
+    border-left: 0;
+  }
+
+  .step {
+    min-height: 13rem;
+  }
+
+  .contextBar {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .contextBar > div:nth-child(2) {
+    border-right: 0;
+  }
+
+  .contextBar > div:nth-child(-n + 2) {
+    border-bottom: 1px solid var(--eval-line);
+  }
+
+  .contextBar > button {
+    min-height: 4.6rem;
+  }
+}
+
+@media (max-width: 680px) {
+  .navigator {
+    margin-top: 3rem;
+  }
+
+  .header {
+    min-height: 3.6rem;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: center;
+    gap: .35rem;
+    padding-right: .75rem;
+    padding-left: .75rem;
+  }
+
+  .syncStatus {
+    text-align: left;
+  }
+
+  .verifyLoop {
+    top: 4.2rem;
+    right: .75rem;
+  }
+
+  .track {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .track > li:nth-child(n + 3) {
+    border-top: 1px solid var(--eval-line);
+  }
+
+  .track > li:nth-child(3n + 1) .step {
+    border-left: 1px solid var(--eval-line);
+  }
+
+  .track > li:nth-child(odd) .step {
+    border-left: 0;
+  }
+
+  .step {
+    min-height: 12rem;
+    padding: 1.8rem .75rem .8rem;
+  }
+
+  .node {
+    left: .78rem;
+  }
+
+  .anchor {
+    font-size: .44rem;
+  }
+
+  .step > strong {
+    margin-top: 1.55rem;
+    font-size: .84rem;
+  }
+
+  .description {
+    font-size: .64rem;
+  }
+
+  .contextBar > div {
+    padding: .75rem;
+  }
+
+  .contextBar strong {
+    font-size: .58rem;
+  }
+
+  .contextBar > button {
+    min-width: 0;
+    padding: 0 .75rem;
+    text-align: left;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track > li::after,
+  .step,
+  .node,
+  .anchor,
+  .step > strong,
+  .open {
+    transition: none;
+  }
+
+  .step[data-active] .node,
+  .step[data-active] > strong {
+    transform: none;
+  }
+
+  :global([data-review-context-highlight="true"]) {
+    animation: none;
+  }
+}
