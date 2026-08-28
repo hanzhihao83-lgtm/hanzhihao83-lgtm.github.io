@@ -115,18 +115,20 @@ test("the evaluation hero exports an accessible ambient video stage", () => {
   assert.doesNotMatch(video, /controls/, "hero ambient video must not expose native controls");
 });
 
-test("the homepage featured case exports the optimized seven-second evaluation media", () => {
+test("the homepage featured case defers video on mobile and data-saving connections", () => {
   const html = readFileSync("out/index.html", "utf8");
   const component = readFileSync("src/components/Home/FeaturedEvaluationCard.tsx", "utf8");
-  const video = html.match(/<video[^>]+home-featured-7s\.mp4[^>]*>/)?.[0] ?? "";
+  const mediaPolicy = readFileSync("src/hooks/useAutoplayMediaPolicy.ts", "utf8");
   assert.match(html, /aria-label="查看AI视频生成质量评测项目"/);
-  ["loop", "muted", "playsInline", 'preload="metadata"', 'poster="/images/i2v-evaluation/home-featured-7s.jpg"'].forEach((attribute) => {
-    assert.match(video, new RegExp(attribute), `homepage featured video is missing ${attribute}`);
-  });
-  assert.doesNotMatch(video, /controls/, "homepage featured video must not expose native controls");
-  assert.match(component, /autoPlay=/, "homepage featured video does not expose autoplay behavior");
+  assert.match(html, /home-featured-7s\.jpg/, "homepage featured poster is missing");
+  assert.doesNotMatch(html, /<video[^>]+home-featured-7s\.mp4/, "homepage must not preload the featured video during static render");
+  assert.match(component, /preload="none"/, "homepage featured video must opt out of browser preloading");
+  assert.match(component, /useAutoplayMediaPolicy/, "homepage featured video is not connection aware");
   assert.match(component, /video\.currentTime/, "evaluation HUD is not synchronized to the video timeline");
   assert.match(component, /IntersectionObserver/, "featured playback is not visibility managed");
+  assert.match(mediaPolicy, /min-width: 769px/, "mobile devices are not excluded from autoplay");
+  assert.match(mediaPolicy, /saveData/, "data-saving connections are not excluded from autoplay");
+  assert.match(mediaPolicy, /slow-2g|2g/, "slow connections are not excluded from autoplay");
   assert.ok(existsSync("public/videos/i2v-evaluation/home-featured-7s.mp4"), "optimized featured video is missing");
   assert.ok(existsSync("public/images/i2v-evaluation/home-featured-7s.jpg"), "featured poster is missing");
 });

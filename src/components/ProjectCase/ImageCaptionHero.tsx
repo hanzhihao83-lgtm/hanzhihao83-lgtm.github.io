@@ -33,7 +33,7 @@ const heroCases: HeroCase[] = [
   {
     id: "IC-01",
     title: "雨后车站",
-    image: "/images/projects/project-03/caption-station-rain.png",
+    image: "/images/projects/project-03/caption-station-rain.jpg",
     task: "SCENE / RELATION",
     subject: "撑伞男子 · 通勤列车",
     detail: "透明雨伞 · 黑色背包",
@@ -49,7 +49,7 @@ const heroCases: HeroCase[] = [
   {
     id: "IC-02",
     title: "桌面静物",
-    image: "/images/projects/project-03/caption-desk-still-life.png",
+    image: "/images/projects/project-03/caption-desk-still-life.jpg",
     task: "OBJECT / ATTRIBUTE",
     subject: "陶瓷杯 · 书本 · 相机",
     detail: "红色 · 黄色 · 黑色",
@@ -65,7 +65,7 @@ const heroCases: HeroCase[] = [
   {
     id: "IC-03",
     title: "街头市场",
-    image: "/images/projects/project-03/caption-market-relations.png",
+    image: "/images/projects/project-03/caption-market-relations.jpg",
     task: "ACTION / MULTI-SUBJECT",
     subject: "摊主 · 两位顾客",
     detail: "纸袋 · 帆布包 · 橙子",
@@ -81,7 +81,7 @@ const heroCases: HeroCase[] = [
   {
     id: "IC-04",
     title: "玻璃后的阅读者",
-    image: "/images/projects/project-03/caption-cafe-reflection.png",
+    image: "/images/projects/project-03/caption-cafe-reflection.jpg",
     task: "REFLECTION / OCCLUSION",
     subject: "阅读女性 · 公交车倒影",
     detail: "蓝色杯子 · 米色围巾",

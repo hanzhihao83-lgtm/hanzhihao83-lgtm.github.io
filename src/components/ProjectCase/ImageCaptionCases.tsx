@@ -35,7 +35,7 @@ const imageCaptionCases: ImageCaptionCase[] = [
   {
     id: "IC-01",
     title: "雨后车站",
-    image: "/images/projects/project-03/caption-station-rain.png",
+    image: "/images/projects/project-03/caption-station-rain.jpg",
     task: "空间关系 / 场景描述",
     caption:
       "雨后的车站站台上，一名撑透明雨伞的男子站在铁轨旁，银色列车从他面前经过，黑色背包放在他的右侧，左侧设有红色自动售货机。",
@@ -54,7 +54,7 @@ const imageCaptionCases: ImageCaptionCase[] = [
   {
     id: "IC-02",
     title: "桌面静物",
-    image: "/images/projects/project-03/caption-desk-still-life.png",
+    image: "/images/projects/project-03/caption-desk-still-life.jpg",
     task: "物体属性 / 相对位置",
     caption:
       "夕阳照亮木质桌面，红色陶瓷杯位于黄色书本左侧，黑色钢笔斜放在书本上，相机位于杯子后方，右后方摆放着绿色植物。",
@@ -73,7 +73,7 @@ const imageCaptionCases: ImageCaptionCase[] = [
   {
     id: "IC-03",
     title: "街头市场",
-    image: "/images/projects/project-03/caption-market-relations.png",
+    image: "/images/projects/project-03/caption-market-relations.jpg",
     task: "多人关系 / 动作识别",
     caption:
       "市场摊主正在把纸袋递给背着浅蓝色帆布包的顾客，右侧另一位顾客正在挑选橙子，左侧自行车靠在摊位旁，前景摆放着黄色花束。",
@@ -92,7 +92,7 @@ const imageCaptionCases: ImageCaptionCase[] = [
   {
     id: "IC-04",
     title: "玻璃后的阅读者",
-    image: "/images/projects/project-03/caption-cafe-reflection.png",
+    image: "/images/projects/project-03/caption-cafe-reflection.jpg",
     task: "反射识别 / 遮挡判断",
     caption:
       "一名穿灰色毛衣的女性坐在咖啡馆窗边阅读，桌上放着蓝色杯子，玻璃倒映出红色公交车、路灯和树枝，左侧空椅上搭着米色围巾。",

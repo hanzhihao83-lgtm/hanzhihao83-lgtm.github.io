@@ -4,6 +4,7 @@ import Image from "next/image";
 import { type CSSProperties, useEffect, useRef, useState } from "react";
 
 import { moonlitDuel } from "@/components/MovingImage/moonlitDuel";
+import { useAutoplayMediaPolicy } from "@/hooks/useAutoplayMediaPolicy";
 
 import styles from "./HomeFilmCover.module.css";
 
@@ -17,6 +18,7 @@ function formatTime(seconds: number) {
 }
 
 export function HomeFilmCover() {
+  const autoplayAllowed = useAutoplayMediaPolicy();
   const frameRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const shouldPlayRef = useRef(false);
@@ -60,7 +62,7 @@ export function HomeFilmCover() {
       document.removeEventListener("visibilitychange", syncPlayback);
       video.pause();
     };
-  }, []);
+  }, [autoplayAllowed]);
 
   return (
     <div
@@ -76,41 +78,42 @@ export function HomeFilmCover() {
         sizes="(max-width: 980px) calc(100vw - 3rem), 55vw"
         src={moonlitDuel.poster}
       />
-      <video
-        aria-hidden="true"
-        autoPlay
-        className={styles.video}
-        data-ready={ready && !failed ? "true" : undefined}
-        loop
-        muted
-        onCanPlay={(event) => {
-          setReady(true);
-          if (shouldPlayRef.current) {
-            void event.currentTarget.play().then(() => setFailed(false)).catch(() => setFailed(true));
-          }
-        }}
-        onDurationChange={(event) => setDuration(event.currentTarget.duration || moonlitDuel.duration)}
-        onError={() => setFailed(true)}
-        onLoadedMetadata={(event) => setDuration(event.currentTarget.duration || moonlitDuel.duration)}
-        onPause={() => setPlaying(false)}
-        onPlay={() => setPlaying(true)}
-        onPlaying={() => {
-          if (!shouldPlayRef.current) {
-            videoRef.current?.pause();
-            return;
-          }
-          setFailed(false);
-          setPlaying(true);
-          setReady(true);
-        }}
-        onTimeUpdate={(event) => setCurrentTime(event.currentTarget.currentTime)}
-        playsInline
-        poster={moonlitDuel.poster}
-        preload="metadata"
-        ref={videoRef}
-        src={moonlitDuel.source}
-        tabIndex={-1}
-      />
+      {autoplayAllowed ? (
+        <video
+          aria-hidden="true"
+          className={styles.video}
+          data-ready={ready && !failed ? "true" : undefined}
+          loop
+          muted
+          onCanPlay={(event) => {
+            setReady(true);
+            if (shouldPlayRef.current) {
+              void event.currentTarget.play().then(() => setFailed(false)).catch(() => setFailed(true));
+            }
+          }}
+          onDurationChange={(event) => setDuration(event.currentTarget.duration || moonlitDuel.duration)}
+          onError={() => setFailed(true)}
+          onLoadedMetadata={(event) => setDuration(event.currentTarget.duration || moonlitDuel.duration)}
+          onPause={() => setPlaying(false)}
+          onPlay={() => setPlaying(true)}
+          onPlaying={() => {
+            if (!shouldPlayRef.current) {
+              videoRef.current?.pause();
+              return;
+            }
+            setFailed(false);
+            setPlaying(true);
+            setReady(true);
+          }}
+          onTimeUpdate={(event) => setCurrentTime(event.currentTarget.currentTime)}
+          playsInline
+          poster={moonlitDuel.poster}
+          preload="none"
+          ref={videoRef}
+          src={moonlitDuel.source}
+          tabIndex={-1}
+        />
+      ) : null}
 
       <div aria-hidden="true" className={styles.scanlines} />
       <div aria-hidden="true" className={styles.vignette} />

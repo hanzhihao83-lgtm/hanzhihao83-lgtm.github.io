@@ -1213,7 +1213,7 @@
 .ruleLensVisual {
   position: absolute;
   inset: 0;
-  background-image: linear-gradient(rgb(5 4 10 / 12%), rgb(5 4 10 / 42%)), url("/images/projects/project-02/multi-turn-vqa-hero.png");
+  background-image: linear-gradient(rgb(5 4 10 / 12%), rgb(5 4 10 / 42%)), url("/images/projects/project-02/multi-turn-vqa-hero.jpg");
   background-position: 64% center;
   background-repeat: no-repeat;
   background-size: cover;

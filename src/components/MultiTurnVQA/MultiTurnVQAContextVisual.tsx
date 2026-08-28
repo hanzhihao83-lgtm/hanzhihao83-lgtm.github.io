@@ -177,7 +177,7 @@ export function MultiTurnVQAContextVisual() {
               className={styles.contextImage}
               height={941}
               sizes="(max-width: 767px) calc(100vw - 2rem), (max-width: 1100px) 62vw, 38vw"
-              src="/images/projects/project-02/multi-turn-vqa-hero.png"
+              src="/images/projects/project-02/multi-turn-vqa-hero.jpg"
               width={1672}
             />
             <div className={styles.contextVisualMeta} aria-hidden="true">

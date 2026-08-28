@@ -17,7 +17,7 @@ export default function PhotographyPage() {
           <h1><span>摄影</span><span>作品</span></h1>
         </div>
         <figure className={styles.heroImage}>
-          <Image alt="雨后城市高架下的行人" fill priority sizes="(max-width: 760px) 100vw, 62vw" src="/images/photography/generated/city-rain-01.png" />
+          <Image alt="雨后城市高架下的行人" fill priority sizes="(max-width: 760px) 100vw, 62vw" src="/images/photography/generated/city-rain-01.jpg" />
           <figcaption><span>FEATURED FRAME / 01</span><span>雨线以外 · 都市街区</span></figcaption>
         </figure>
         <div className={styles.heroFooter}><span>SCROLL TO VIEW</span><p>记录城市、人物与空间之间，那些只出现一次的距离。</p></div>

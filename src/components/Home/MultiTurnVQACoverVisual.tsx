@@ -102,7 +102,7 @@ export function MultiTurnVQACoverVisual() {
         className={styles.vqaCoverImage}
         fill
         sizes="(max-width: 680px) calc(100vw - 2rem), (max-width: 980px) 55vw, 33vw"
-        src="/images/projects/project-02/multi-turn-vqa-hero.png"
+        src="/images/projects/project-02/multi-turn-vqa-hero.jpg"
       />
       <div className={styles.vqaCoverShade} aria-hidden="true" />
       <div className={styles.vqaCoverScanlines} aria-hidden="true" />

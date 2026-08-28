@@ -221,11 +221,22 @@
   background: #050705;
 }
 
+.poster,
 .stage video {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center;
+}
+
+.poster {
+  z-index: 0;
+}
+
+.stage video {
+  z-index: 0;
   filter: saturate(.78) contrast(1.055);
   transform: scale(1.001);
   transition: transform 1200ms cubic-bezier(.2, .8, .2, 1);

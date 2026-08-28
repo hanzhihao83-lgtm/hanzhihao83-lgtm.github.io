@@ -103,7 +103,7 @@ export function ImageCaptionCoverVisual() {
         className={styles.captionCoverImage}
         fill
         sizes="(max-width: 680px) calc(100vw - 2rem), (max-width: 980px) 55vw, 33vw"
-        src="/images/projects/project-03/caption-home-cover.png"
+        src="/images/projects/project-03/caption-home-cover.jpg"
       />
       <div className={styles.captionCoverShade} aria-hidden="true" />
       <div className={styles.captionCoverScanlines} aria-hidden="true" />

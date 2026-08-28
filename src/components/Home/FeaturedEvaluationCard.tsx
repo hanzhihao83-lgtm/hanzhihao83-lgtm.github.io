@@ -1,8 +1,11 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import { useEffect, useRef, useState } from "react";
+
+import { useAutoplayMediaPolicy } from "@/hooks/useAutoplayMediaPolicy";
 
 import styles from "./FeaturedEvaluationCard.module.css";
 
@@ -54,18 +57,10 @@ export function FeaturedEvaluationCard({ accent, eyebrow, href, title, summary, 
   const blockedRef = useRef(false);
   const frameRef = useRef(0);
   const lastFrameRef = useRef({ phase: -1, bucket: -1, second: -1 });
-  const [motionEnabled, setMotionEnabled] = useState(false);
+  const motionEnabled = useAutoplayMediaPolicy();
   const [isPlaying, setIsPlaying] = useState(false);
   const [duration, setDuration] = useState(VIDEO_DURATION);
   const [timeline, setTimeline] = useState<TimelineState>({ phase: 5, progress: 1, second: 0 });
-
-  useEffect(() => {
-    const query = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const updatePreference = () => setMotionEnabled(!query.matches);
-    updatePreference();
-    query.addEventListener("change", updatePreference);
-    return () => query.removeEventListener("change", updatePreference);
-  }, []);
 
   useEffect(() => {
     const card = cardRef.current;
@@ -230,16 +225,24 @@ export function FeaturedEvaluationCard({ accent, eyebrow, href, title, summary, 
       </div>
 
       <div className={styles.stage} data-playing={isPlaying}>
-        <video
-          autoPlay={motionEnabled}
-          loop
-          muted
-          playsInline
-          poster="/images/i2v-evaluation/home-featured-7s.jpg"
-          preload="metadata"
-          ref={videoRef}
-          src="/videos/i2v-evaluation/home-featured-7s.mp4"
+        <Image
+          alt=""
+          className={styles.poster}
+          fill
+          sizes="(max-width: 980px) 100vw, 58vw"
+          src="/images/i2v-evaluation/home-featured-7s.jpg"
         />
+        {motionEnabled ? (
+          <video
+            loop
+            muted
+            playsInline
+            poster="/images/i2v-evaluation/home-featured-7s.jpg"
+            preload="none"
+            ref={videoRef}
+            src="/videos/i2v-evaluation/home-featured-7s.mp4"
+          />
+        ) : null}
         <div className={styles.videoShade} aria-hidden="true" />
         <div className={styles.scanline} aria-hidden="true" />
         <div className={styles.videoTop} aria-hidden="true"><span>CASE / HOME-007</span><span>KLING AI 3.0 OMNI</span></div>

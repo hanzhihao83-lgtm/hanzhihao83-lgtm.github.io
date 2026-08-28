@@ -123,15 +123,15 @@ export function HomePage() {
             <div className={styles.photoStack} aria-hidden="true">
               <span className={styles.photoStackMeta}>CONTACT SHEET / 01—05</span>
               <span className={styles.photoCard} data-frame="01">
-                <Image alt="" fill sizes="(max-width: 980px) 72vw, 34vw" src="/images/photography/generated/city-rain-01.png" />
+                <Image alt="" fill sizes="(max-width: 980px) 72vw, 34vw" src="/images/photography/generated/city-rain-01.jpg" />
                 <i>城市 / 雨线以外</i>
               </span>
               <span className={styles.photoCard} data-frame="02">
-                <Image alt="" fill sizes="(max-width: 980px) 44vw, 21vw" src="/images/photography/generated/portrait-window-01.png" />
+                <Image alt="" fill sizes="(max-width: 980px) 44vw, 21vw" src="/images/photography/generated/portrait-window-01.jpg" />
                 <i>人物 / 窗边停顿</i>
               </span>
               <span className={styles.photoCard} data-frame="03">
-                <Image alt="" fill sizes="(max-width: 980px) 58vw, 28vw" src="/images/photography/generated/architecture-shadow-01.png" />
+                <Image alt="" fill sizes="(max-width: 980px) 58vw, 28vw" src="/images/photography/generated/architecture-shadow-01.jpg" />
                 <i>建筑 / 尺度之间</i>
               </span>
               <span className={styles.photoReticle}><i /><i /></span>

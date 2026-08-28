@@ -22,6 +22,13 @@
   translate: 0;
 }
 
+@media (max-width: 680px) {
+  .reveal {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 44rem;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .reveal,
   :global(html[data-reveal-runtime="true"]) .reveal {
