@@ -1465,7 +1465,7 @@
   }
 }
 
-@media (max-width: 699px), (prefers-reduced-motion: reduce) {
+@media (prefers-reduced-motion: reduce) {
   .heroEyebrow,
   .hero h1 span,
   .hero h1 em,

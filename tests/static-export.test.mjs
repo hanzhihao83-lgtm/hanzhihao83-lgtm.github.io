@@ -133,6 +133,24 @@ test("the homepage featured case defers video on mobile and data-saving connecti
   assert.ok(existsSync("public/images/i2v-evaluation/home-featured-7s.jpg"), "featured poster is missing");
 });
 
+test("the mobile homepage keeps lightweight motion without intrusive overlays", () => {
+  const assistant = readFileSync("src/components/SiteAssistant/SiteAssistantClient.tsx", "utf8");
+  const assistantStyles = readFileSync("src/components/SiteAssistant/SiteAssistant.module.css", "utf8");
+  const featured = readFileSync("src/components/Home/FeaturedEvaluationCard.tsx", "utf8");
+  const featuredStyles = readFileSync("src/components/Home/FeaturedEvaluationCard.module.css", "utf8");
+  const film = readFileSync("src/components/Home/HomeFilmCover.tsx", "utf8");
+  const revealStyles = readFileSync("src/components/GlobalInteractions/Reveal.module.css", "utf8");
+
+  assert.match(assistant, /min-width: 761px/, "mobile welcome overlay is not suppressed");
+  assert.match(assistantStyles, /width:\s*48px/, "mobile assistant is still too large");
+  assert.match(assistant, /han-zhihao-chibi\.webp/, "mobile assistant is not using the optimized image");
+  assert.ok(existsSync("public/assistant/han-zhihao-chibi.webp"), "optimized assistant image is missing");
+  assert.match(featured, /data-ambient/, "featured mobile fallback has no ambient state");
+  assert.match(featuredStyles, /featured-poster-drift/, "featured mobile fallback has no lightweight motion");
+  assert.match(film, /AMBIENT PREVIEW/, "film fallback does not explain its ambient state");
+  assert.doesNotMatch(revealStyles, /content-visibility/, "mobile reveal can still leave long blank regions");
+});
+
 test("the Score Lab video uses a poster-safe media state machine and custom controls", () => {
   const html = readFileSync("out/projects/i2v-evaluation/index.html", "utf8");
   const component = readFileSync("src/components/VideoEvaluation/EvaluationVideo.tsx", "utf8");

@@ -115,6 +115,7 @@ export function SiteAssistantClient({ knowledge }: { knowledge: AssistantKnowled
 
   useEffect(() => {
     const frame = window.requestAnimationFrame(() => {
+      const canShowWelcome = window.matchMedia("(min-width: 761px)").matches;
       try {
         if (window.sessionStorage.getItem(PANEL_STORAGE_KEY) === "true") {
           setInitializationLineCount(INITIALIZATION_LINES.length);
@@ -122,10 +123,10 @@ export function SiteAssistantClient({ knowledge }: { knowledge: AssistantKnowled
         }
         if (window.sessionStorage.getItem(WELCOME_STORAGE_KEY) !== "true") {
           window.sessionStorage.setItem(WELCOME_STORAGE_KEY, "true");
-          setWelcomeVisible(true);
+          setWelcomeVisible(canShowWelcome);
         }
       } catch {
-        setWelcomeVisible(true);
+        setWelcomeVisible(canShowWelcome);
       }
     });
     return () => window.cancelAnimationFrame(frame);
@@ -455,11 +456,12 @@ export function SiteAssistantClient({ knowledge }: { knowledge: AssistantKnowled
               alt="韩志浩作品集的Q版男性导览助手小浩，抱着平板并抬手挥手"
               className={styles.characterImage}
               draggable={false}
-              height={480}
-              loading="lazy"
-              sizes="(max-width: 760px) 80px, 107px"
-              src="/assistant/han-zhihao-chibi.png"
-              width={320}
+              fetchPriority="high"
+              height={240}
+              loading="eager"
+              sizes="(max-width: 760px) 48px, 107px"
+              src="/assistant/han-zhihao-chibi.webp"
+              width={160}
             />
             <span aria-hidden="true" className={styles.blinkLayer}><i /><i /></span>
             {isWaving && !prefersReducedMotion ? (
@@ -469,10 +471,10 @@ export function SiteAssistantClient({ knowledge }: { knowledge: AssistantKnowled
                     alt=""
                     className={styles.characterImage}
                     draggable={false}
-                    height={480}
-                    sizes="(max-width: 760px) 80px, 107px"
-                    src="/assistant/han-zhihao-chibi.png"
-                    width={320}
+                    height={240}
+                    sizes="(max-width: 760px) 48px, 107px"
+                    src="/assistant/han-zhihao-chibi.webp"
+                    width={160}
                   />
                 </span>
                 <span className={styles.armLayer}>
@@ -480,10 +482,10 @@ export function SiteAssistantClient({ knowledge }: { knowledge: AssistantKnowled
                     alt=""
                     className={styles.characterImage}
                     draggable={false}
-                    height={480}
-                    sizes="(max-width: 760px) 80px, 107px"
-                    src="/assistant/han-zhihao-chibi.png"
-                    width={320}
+                    height={240}
+                    sizes="(max-width: 760px) 48px, 107px"
+                    src="/assistant/han-zhihao-chibi.webp"
+                    width={160}
                   />
                 </span>
               </span>

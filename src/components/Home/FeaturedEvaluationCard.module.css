@@ -270,6 +270,11 @@
   animation-play-state: running;
 }
 
+.stage[data-ambient="true"] .scanline {
+  animation-duration: 7s;
+  animation-play-state: running;
+}
+
 .videoTop,
 .timecode {
   position: absolute;
@@ -344,6 +349,11 @@
 }
 
 .stage[data-playing="true"] .waveform i {
+  animation-play-state: running;
+}
+
+.stage[data-ambient="true"] .waveform i {
+  animation-duration: 1.8s;
   animation-play-state: running;
 }
 
@@ -505,6 +515,10 @@
     right: 1rem;
     left: 1rem;
   }
+
+  .stage[data-ambient="true"] .poster {
+    animation: featured-poster-drift 10s cubic-bezier(.4, 0, .2, 1) infinite alternate;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -518,7 +532,8 @@
 
   .scanline,
   .waveform i,
-  .timecode > span i {
+  .timecode > span i,
+  .stage[data-ambient="true"] .poster {
     animation: none;
   }
 
@@ -544,4 +559,9 @@
 @keyframes rec-pulse {
   0%, 100% { opacity: .35; }
   50% { opacity: 1; }
+}
+
+@keyframes featured-poster-drift {
+  from { transform: scale(1.01) translate3d(-0.35%, 0, 0); }
+  to { transform: scale(1.055) translate3d(0.7%, -0.45%, 0); }
 }

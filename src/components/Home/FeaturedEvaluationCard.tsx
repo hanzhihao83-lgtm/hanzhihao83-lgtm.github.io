@@ -224,7 +224,7 @@ export function FeaturedEvaluationCard({ accent, eyebrow, href, title, summary, 
         <div className={styles.enter}><span>OPEN CASE FILE</span><b aria-hidden="true" data-project-arrow>↗</b></div>
       </div>
 
-      <div className={styles.stage} data-playing={isPlaying}>
+      <div className={styles.stage} data-ambient={!motionEnabled ? "true" : undefined} data-playing={isPlaying}>
         <Image
           alt=""
           className={styles.poster}
@@ -247,7 +247,7 @@ export function FeaturedEvaluationCard({ accent, eyebrow, href, title, summary, 
         <div className={styles.scanline} aria-hidden="true" />
         <div className={styles.videoTop} aria-hidden="true"><span>CASE / HOME-007</span><span>KLING AI 3.0 OMNI</span></div>
         <div className={styles.timecode} aria-hidden="true">
-          <span data-playing={isPlaying}><i />{isPlaying ? "REC" : "PAUSE"}</span>
+          <span data-playing={isPlaying}><i />{isPlaying ? "REC" : motionEnabled ? "PAUSE" : "PREVIEW"}</span>
           {formatTime(motionEnabled ? timeline.second : 0)} / {formatTime(duration)}
         </div>
         <div className={styles.waveform} aria-hidden="true">

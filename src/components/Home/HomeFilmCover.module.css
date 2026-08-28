@@ -134,6 +134,10 @@
   animation: wave 720ms var(--wave-delay) ease-in-out infinite alternate;
 }
 
+.frame[data-ambient="true"] .wave i {
+  animation: wave 1.4s var(--wave-delay) ease-in-out infinite alternate;
+}
+
 .progress {
   height: 1px;
   background: rgb(181 207 197 / 34%);
@@ -184,13 +188,19 @@
   .statusRow time,
   .playState { font-size: 0.4rem; }
   .playState { margin-top: 0.35rem; }
+
+  .frame[data-ambient="true"] .poster {
+    animation: film-poster-drift 12s cubic-bezier(.4, 0, .2, 1) infinite alternate;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .video,
   .progress i { transition: none; }
   .recording i,
-  .wave[data-playing="true"] i { animation: none; }
+  .wave[data-playing="true"] i,
+  .frame[data-ambient="true"] .wave i,
+  .frame[data-ambient="true"] .poster { animation: none; }
 }
 
 @keyframes record-pulse {
@@ -201,4 +211,9 @@
 @keyframes wave {
   from { transform: scaleY(0.3); }
   to { transform: scaleY(1); }
+}
+
+@keyframes film-poster-drift {
+  from { transform: scale(1.01) translate3d(-0.25%, 0, 0); }
+  to { transform: scale(1.05) translate3d(0.65%, -0.4%, 0); }
 }

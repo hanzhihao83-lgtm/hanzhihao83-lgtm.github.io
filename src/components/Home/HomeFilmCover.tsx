@@ -67,6 +67,7 @@ export function HomeFilmCover() {
   return (
     <div
       className={styles.frame}
+      data-ambient={!autoplayAllowed ? "true" : undefined}
       data-film-failed={failed ? "true" : undefined}
       ref={frameRef}
       style={{ "--film-progress": progress } as CSSProperties}
@@ -140,7 +141,7 @@ export function HomeFilmCover() {
           <div className={styles.progress}><i /></div>
           <time>{formatTime(currentTime)} / {formatTime(duration)}</time>
         </div>
-        <span className={styles.playState}>{playing ? "PLAYING / MUTED" : "READY / MUTED"}</span>
+        <span className={styles.playState}>{playing ? "PLAYING / MUTED" : autoplayAllowed ? "READY / MUTED" : "AMBIENT PREVIEW"}</span>
       </div>
     </div>
   );
