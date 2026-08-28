@@ -14,7 +14,7 @@ const displayName = resolveProfileValue(profile.name, profileFallbacks.name);
 const displayRole = resolveProfileValue(profile.role, profileFallbacks.role);
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://example.com"),
+  metadataBase: new URL("https://myhanzhihao.cn"),
   title: { default: `${displayName} · ${displayRole}`, template: `%s · ${displayName}` },
   description: "项目案例、视觉笔记、摄影与动态影像组成的中文个人作品集。",
   openGraph: { title: `${displayName} · ${displayRole}`, description: "中文个人作品集", type: "website", locale: "zh_CN" },

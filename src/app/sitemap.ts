@@ -4,7 +4,7 @@ import { projects } from "@/data/projects";
 export const dynamic = "force-static";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://example.com";
+  const baseUrl = "https://myhanzhihao.cn";
   const routes = ["", "/visual-notes", "/photography", "/moving-image"];
   return [
     ...routes.map((route) => ({ url: `${baseUrl}${route}`, changeFrequency: "monthly" as const, priority: route === "" ? 1 : 0.7 })),
